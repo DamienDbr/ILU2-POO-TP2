@@ -113,7 +113,11 @@ public class Village {
 	public String[] donnerEtatMarche() {
 		return marche.donnerEtat();
 	}
-
+	
+	//ajout
+	public void diminerQuantiteProduit(int nbDiminution, String nomVendeur) {
+		marche.diminuerQuantiteProduit(nbDiminution,nomVendeur);
+	}
 	////////////////////// Classe Interne ///////////////////////
 	private static class Marche {
 		private Etal[] etals;
@@ -124,7 +128,13 @@ public class Village {
 				etals[i] = new Etal();
 			}
 		}
-
+		
+		private void diminuerQuantiteProduit(int quantiteDiminution, String nomVendeur) {
+			
+			Etal etalVendeur = trouverVendeurAvecNom(nomVendeur);
+			etalVendeur.diminuerQuantiteProduit(quantiteDiminution);
+		}
+		
 		private void utiliserEtal(int indiceEtal, Gaulois vendeur,
 				String produit, int nbProduit) {
 			if (indiceEtal >= 0 && indiceEtal < etals.length) {
@@ -177,6 +187,21 @@ public class Village {
 				Gaulois vendeur = etals[i].getVendeur();
 				if (vendeur != null) {
 					vendeurTrouve = vendeur.getNom().equals(gaulois.getNom());
+					if (vendeurTrouve) {
+						etalVendeur = etals[i];
+					}
+				}
+			}
+			return etalVendeur;
+		}
+		
+		private Etal trouverVendeurAvecNom(String nomVendeur) {
+			boolean vendeurTrouve = false;
+			Etal etalVendeur = null;
+			for (int i = 0; i < etals.length && !vendeurTrouve; i++) {
+				Gaulois vendeur = etals[i].getVendeur();
+				if (vendeur != null) {
+					vendeurTrouve = vendeur.getNom().equals(nomVendeur);
 					if (vendeurTrouve) {
 						etalVendeur = etals[i];
 					}

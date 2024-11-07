@@ -1,4 +1,5 @@
 package controleur;
+import villagegaulois.Etal;
 
 public class ControlLibererEtal {
 	private ControlTrouverEtalVendeur controlTrouverEtalVendeur;
@@ -9,6 +10,12 @@ public class ControlLibererEtal {
 	}
 
 	//TODO a completer
+	public boolean isVendeur(String nomVendeur) {
+		if(controlTrouverEtalVendeur.trouverEtalVendeur(nomVendeur)!=null)
+			return true;
+		return false;
+	}
+	//fin complétion
 
 	/**
 	 * 
@@ -22,8 +29,33 @@ public class ControlLibererEtal {
 	 */
 	public String[] libererEtal(String nomVendeur) {
 		//TODO a completer
-		String[] donneesEtal = null;
-		return donneesEtal;
+		/*String[] donneesEtal = null;
+		return donneesEtal;*/
+		if(!isVendeur(nomVendeur))
+			return null;
+		else {
+			Etal etal = controlTrouverEtalVendeur.trouverEtalVendeur(nomVendeur);
+			String[] donneesEtal = new String[5];
+			boolean etalOccup = etal.isEtalOccupe();
+			String strEtalOccup;
+			if(etalOccup)
+				strEtalOccup = "true";
+			else
+				strEtalOccup = "false";
+			int quantiteActuelle = etal.getQuantite();
+			int quantiteDebMarche = etal.getquantiteDebutMarche();
+			int quantiteVendu = quantiteDebMarche-quantiteActuelle;
+			String strQteVendu = Integer.toString(quantiteVendu);
+			String strquantiteDebMarch = Integer.toString(quantiteDebMarche);
+			donneesEtal[0] = strEtalOccup;
+			donneesEtal[1] = nomVendeur;
+			donneesEtal[2] = etal.getProduit();
+			donneesEtal[3] = strquantiteDebMarch;
+			donneesEtal[4] = strQteVendu;
+			return donneesEtal;
+		}
+		
+		//fin complétion
 	}
 
 }
